@@ -53,7 +53,6 @@ with sync_playwright() as pw:
     pg.wait_for_timeout(1600)
     snap(pg, "05-loop-panel2")
     print("active panel:", pg.evaluate("document.querySelector('.panel.is-active').getAttribute('aria-label')"))
-
     # cta
     pg.evaluate("__lenis.scrollTo(document.querySelector('#cta').getBoundingClientRect().top + window.scrollY + window.innerHeight*0.5, {duration:0.01})")
     pg.wait_for_timeout(1800)
@@ -64,7 +63,7 @@ with sync_playwright() as pw:
     pg.wait_for_timeout(1800)
     snap(pg, "07-footer")
     print("ring offset:", pg.evaluate("getComputedStyle(document.getElementById('fRing')).strokeDashoffset"),
-          "| mark offset:", pg.evaluate("getComputedStyle(document.getElementById('fMark')).strokeDashoffset"))
+          "| letters offset:", pg.evaluate("[...document.querySelectorAll('.fL')].map(e=>getComputedStyle(e).strokeDashoffset).join(',')"))
 
     d = check_overflow(pg)
     print("desktop overflow:", d, "OK" if d["sw"] <= d["iw"] else "FAIL")
